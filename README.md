@@ -4,6 +4,8 @@
 
 Interactive case-study engine built from Raymond Limited's public filings (FY17–FY26).
 
+**Live:** [fincase.vercel.app](https://fincase.vercel.app)
+
 ## Why I built this
 
 During a B.Com internship at Raymond, I was not assigned a project — so I built one. FinCase turns the FY2023–24 demerger into a teachable case study: Story Mode for novices, The Terminal for analysts, and an AI Analyst grounded only in Raymond's numbers.
