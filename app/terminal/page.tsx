@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { TabShell } from "@/components/terminal/TabShell";
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function TerminalPage() {
-  return <TabShell />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-navy" />}>
+      <TabShell />
+    </Suspense>
+  );
 }

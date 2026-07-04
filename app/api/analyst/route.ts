@@ -1,8 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { NextResponse } from "next/server";
 import { buildAnalystContext } from "@/lib/data";
 
-// Node runtime for Anthropic SDK stability; SP-3 moves to edge streaming.
 export const runtime = "nodejs";
 
 interface ChatMessage {
@@ -15,7 +13,9 @@ const SYSTEM_PROMPT = `You are the FinCase AI Analyst for Raymond Edition #1.
 You answer questions ONLY about Raymond Limited's FY17–FY26 financials and the FY2023–24 demerger into Raymond Ltd, Raymond Lifestyle Ltd, and Raymond Realty Ltd.
 
 Rules:
-- Ground every figure in the dataset below. Tag figures with their source when possible, e.g. [Working Capital · FY26] or [Debt · FY24].
+- Ground every figure in the dataset below. Tag EVERY figure with a citation chip in this exact format: [Label · FYxx]
+  Examples: [Revenue · FY23], [Debt · FY24], [Working Capital · FY26], [Realty · FY26], [OPM · FY23]
+  Use labels from: Revenue, Debt, Working Capital, Realty, OPM, Lifestyle, Demerger, Overview.
 - If asked about anything outside this dataset (other companies, live prices, personal advice), politely refuse: "I only know Raymond's FY17–FY26 numbers."
 - Flag FY24 one-offs when relevant — Lifestyle FY24 net profit is inflated by demerger accounting entries.
 - Be concise, precise, and classroom-ready. Use ₹ crore for money.
@@ -28,12 +28,9 @@ export async function POST(request: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
   if (!apiKey) {
-    return NextResponse.json(
-      {
-        error:
-          "ANTHROPIC_API_KEY is not configured. Add it to .env.local (see .env.example).",
-      },
-      { status: 503 },
+    return new Response(
+      "⚠ ANTHROPIC_API_KEY NOT CONFIGURED — ADD IT TO .ENV.LOCAL",
+      { status: 503, headers: { "Content-Type": "text/plain; charset=utf-8" } },
     );
   }
 
@@ -41,7 +38,10 @@ export async function POST(request: Request) {
   try {
     body = (await request.json()) as { messages?: ChatMessage[] };
   } catch {
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    return new Response("⚠ INVALID REQUEST", {
+      status: 400,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
   }
 
   const messages = body.messages?.filter(
@@ -49,13 +49,16 @@ export async function POST(request: Request) {
   );
 
   if (!messages?.length) {
-    return NextResponse.json({ error: "messages array is required" }, { status: 400 });
+    return new Response("⚠ MESSAGES REQUIRED", {
+      status: 400,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
   }
 
   const client = new Anthropic({ apiKey });
 
   try {
-    const response = await client.messages.create({
+    const stream = client.messages.stream({
       model: "claude-3-5-haiku-latest",
       max_tokens: 1024,
       system: SYSTEM_PROMPT,
@@ -65,16 +68,36 @@ export async function POST(request: Request) {
       })),
     });
 
-    const text = response.content
-      .filter((block): block is Anthropic.TextBlock => block.type === "text")
-      .map((block) => block.text)
-      .join("\n");
+    const encoder = new TextEncoder();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const event of stream) {
+            if (
+              event.type === "content_block_delta" &&
+              event.delta.type === "text_delta"
+            ) {
+              controller.enqueue(encoder.encode(event.delta.text));
+            }
+          }
+          controller.close();
+        } catch {
+          controller.enqueue(encoder.encode("\n⚠ CONNECTION INTERRUPTED — RETRY"));
+          controller.close();
+        }
+      },
+    });
 
-    return NextResponse.json({ reply: text });
+    return new Response(readable, {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-store",
+      },
+    });
   } catch {
-    return NextResponse.json(
-      { error: "Connection interrupted" },
-      { status: 502 },
-    );
+    return new Response("⚠ CONNECTION INTERRUPTED — RETRY", {
+      status: 502,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
   }
 }

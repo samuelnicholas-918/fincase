@@ -8,6 +8,7 @@ export const chartTheme = {
   tooltipBg: "#141B2D",
   tooltipBorder: "#C9A84C",
   font: "var(--font-space-mono), ui-monospace, monospace",
+  demergerLine: "FY24",
 } as const;
 
 export const tooltipStyle = {
@@ -17,4 +18,10 @@ export const tooltipStyle = {
   fontFamily: chartTheme.font,
   fontSize: 12,
   color: "#E8ECF4",
+};
+
+export const axisTick = {
+  fill: chartTheme.axis,
+  fontSize: 11,
+  fontFamily: chartTheme.font,
 };

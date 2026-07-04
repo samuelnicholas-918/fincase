@@ -61,6 +61,16 @@ export interface QuizQuestion {
 
 export type ChartKind = "revenue" | "profit" | "opm" | "debt" | "working-capital" | "realty";
 
+export interface PredictMoment {
+  prompt: string;
+  min: number;
+  max: number;
+  actual: number;
+  unit: "cr" | "pct" | "days" | "x";
+  label: string;
+  step?: number;
+}
+
 export interface Chapter {
   id: number;
   slug: string;
@@ -68,8 +78,10 @@ export interface Chapter {
   question: string;
   narrative: string[];
   chart: ChartKind;
+  predict: PredictMoment;
   concept: ConceptCard;
   quiz: QuizQuestion[];
+  scrolly?: boolean;
 }
 
 export type TerminalTabId =
@@ -78,10 +90,20 @@ export type TerminalTabId =
   | "working-capital"
   | "demerger"
   | "realty"
-  | "ai-analyst";
+  | "ai-analyst"
+  | "methodology";
 
 export interface TerminalTab {
   id: TerminalTabId;
   label: string;
   storyChapter?: number;
 }
+
+export type CitationTarget =
+  | TerminalTabId
+  | "working-capital"
+  | "debt"
+  | "revenue"
+  | "realty"
+  | "demerger"
+  | "overview";

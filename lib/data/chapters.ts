@@ -8,10 +8,19 @@ export const chapters: Chapter[] = [
     question: "How did Raymond's revenue evolve over a decade?",
     narrative: [
       "Raymond is one of India's oldest diversified business houses — worsted suiting, branded apparel, engineering, and later real estate, all under one listed name.",
-      "From FY17 to FY23, revenue grew from ₹5,353 Cr to ₹8,215 Cr. The path was not a straight line: FY21 shows what a pandemic does to a suit-maker's top line.",
-      "By FY23 — the last full year before the demerger — Raymond was at peak pre-split revenue, with the lifestyle businesses still carrying most of the weight.",
+      "From FY17 to FY23, REVENUE grew from ₹5,353 Cr to ₹8,215 Cr. The path was not a straight line: FY21 shows what a pandemic does to a suit-maker's top line.",
+      "By FY23 — the last full year before the DEMERGER — Raymond was at peak pre-split revenue, with the lifestyle businesses still carrying most of the weight.",
     ],
     chart: "revenue",
+    predict: {
+      prompt: "What do you think COVID did to a suit-maker's revenue in FY21? Drag the bar.",
+      min: 2000,
+      max: 8000,
+      actual: 3446,
+      unit: "cr",
+      label: "FY21 revenue",
+      step: 50,
+    },
     concept: {
       concept: "Revenue (Top Line)",
       definition:
@@ -55,11 +64,20 @@ export const chapters: Chapter[] = [
     title: "Is the company actually making money?",
     question: "How did profitability and operating margins move?",
     narrative: [
-      "Revenue alone does not tell you if a company is healthy. Operating profit margin (OPM) shows how much of each rupee of sales becomes operating profit.",
-      "Raymond's OPM climbed from 5.7% in FY17 to 14.6% in FY23 — a recovery story as much as a growth one. FY21 was the exception: a net loss of ₹297 Cr and negative OPM.",
-      "By the eve of the demerger, margins had more than doubled from the start of the decade, setting up the lifestyle business as a mature, cash-generative core.",
+      "REVENUE alone does not tell you if a company is healthy. OPM shows how much of each rupee of sales becomes operating profit.",
+      "Raymond's OPM climbed from 5.7% in FY17 to 14.6% in FY23 — a recovery story as much as a growth one. FY21 was the exception: a NET PROFIT loss of ₹297 Cr and negative OPM.",
+      "By the eve of the DEMERGER, margins had more than doubled from the start of the decade, setting up the lifestyle business as a mature, cash-generative core.",
     ],
     chart: "opm",
+    predict: {
+      prompt: "Guess Raymond's operating margin in FY23 (peak pre-demerger year).",
+      min: 0,
+      max: 25,
+      actual: 14.6,
+      unit: "pct",
+      label: "FY23 OPM",
+      step: 0.1,
+    },
     concept: {
       concept: "Operating Profit Margin (OPM)",
       definition:
@@ -103,11 +121,20 @@ export const chapters: Chapter[] = [
     title: "How does the company manage cash?",
     question: "What do working-capital metrics say about Lifestyle post-demerger?",
     narrative: [
-      "Profit on paper is not the same as cash in the bank. Working capital metrics — debtor days, inventory turnover, cash conversion cycle — show how fast cash moves through the business.",
-      "After the demerger, Raymond Lifestyle reports these metrics cleanly. Debtor days sit around 50–54 days; inventory turns roughly 3.5–3.8×; the cash conversion cycle is about 100–105 days.",
-      "FY24's net profit looks spectacular (₹2,645 Cr) but is inflated by demerger one-offs. Underlying operations are better read from FY25–FY26 margins in the 7–10% range.",
+      "Profit on paper is not the same as cash in the bank. Working capital metrics — DEBTOR DAYS, INVENTORY TURNOVER, CASH CONVERSION CYCLE — show how fast cash moves through the business.",
+      "After the DEMERGER, Raymond Lifestyle reports these metrics cleanly. DEBTOR DAYS sit around 50–54 days; inventory turns roughly 3.5–3.8×; the CASH CONVERSION CYCLE is about 100–105 days.",
+      "FY24's NET PROFIT looks spectacular (₹2,645 Cr) but is inflated by demerger one-offs. Underlying operations are better read from FY25–FY26 margins in the 7–10% range.",
     ],
     chart: "working-capital",
+    predict: {
+      prompt: "How many days do you think Lifestyle customers take to pay (debtor days, FY26)?",
+      min: 10,
+      max: 120,
+      actual: 50.1,
+      unit: "days",
+      label: "FY26 debtor days",
+      step: 0.1,
+    },
     concept: {
       concept: "Cash Conversion Cycle",
       definition:
@@ -151,11 +178,21 @@ export const chapters: Chapter[] = [
     title: "The big bet: why split one company into three?",
     question: "What happened to debt and structure in the FY23–24 demerger?",
     narrative: [
-      "In FY2023–24, Raymond did something most companies never do: it split itself into three. If you owned one share of Raymond before the demerger, you ended up holding shares in three separately listed companies.",
-      "Why make yourself smaller? Because sometimes smaller is easier to value. When textiles, real estate, and engineering sit inside one company, an investor cannot tell how much of the stock price comes from each piece.",
-      "Debt tells the transition story: it spiked to ₹4,181 Cr in FY24 as restructuring liabilities were recognised, then collapsed to ₹740 Cr in FY25 — an ~82% cut. The demerger was a value-visibility exercise, not primarily a debt-reduction one.",
+      "In FY2023–24, Raymond did something most companies never do: it split itself into three. If you owned one share of Raymond before the DEMERGER, you ended up holding shares in three separately listed companies.",
+      "Why make yourself smaller? Because sometimes smaller is easier to value — VALUE UNLOCKING in practice. When textiles, real estate, and engineering sit inside one company, an investor cannot tell how much of the stock price comes from each piece.",
+      "Debt tells the transition story: it spiked to ₹4,181 Cr in FY24 as restructuring liabilities were recognised, then collapsed to ₹740 Cr in FY25 — an ~82% cut.",
     ],
     chart: "debt",
+    scrolly: true,
+    predict: {
+      prompt: "By what % do you think debt fell from the FY24 peak to FY25?",
+      min: 0,
+      max: 100,
+      actual: 82,
+      unit: "pct",
+      label: "Debt cut FY24→FY25",
+      step: 1,
+    },
     concept: {
       concept: "Demerger",
       definition:
@@ -201,11 +238,20 @@ export const chapters: Chapter[] = [
     title: "Where is the money going next?",
     question: "What does Raymond Realty's trajectory say about the demerger's purpose?",
     narrative: [
-      "Raymond Realty is the clearest illustration of why the demerger happened. As a standalone entity, it went from a near-zero, loss-making base to just under ₹3,000 Cr in revenue within two years.",
-      "FY24: ₹3.5 Cr revenue, ₹44.3 Cr loss. FY26: ₹2,991 Cr revenue, ₹304.6 Cr net profit. That is roughly 850× revenue growth — growth that would have been invisible buried inside a diversified conglomerate.",
-      "The restructuring was not primarily about cutting debt (debt rose in the transition year). It was about making value legible: once separated, Realty could be priced like a real-estate business, not a footnote to a textile stock.",
+      "Raymond Realty is the clearest illustration of why the DEMERGER happened. As a standalone entity, it went from a near-zero, loss-making base to just under ₹3,000 Cr in REVENUE within two years.",
+      "FY24: ₹3.5 Cr revenue, ₹44.3 Cr loss. FY26: ₹2,991 Cr revenue, ₹304.6 Cr NET PROFIT. That is roughly 850× revenue growth — VALUE UNLOCKING made visible.",
+      "The restructuring was not primarily about cutting debt (debt rose in the transition year). It was about making value legible.",
     ],
     chart: "realty",
+    predict: {
+      prompt: "Guess Realty's FY26 revenue (₹ Cr) — it started at ₹3.5 Cr in FY24.",
+      min: 0,
+      max: 4000,
+      actual: 2991,
+      unit: "cr",
+      label: "FY26 Realty revenue",
+      step: 10,
+    },
     concept: {
       concept: "Value Unlocking",
       definition:

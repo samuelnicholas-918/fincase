@@ -18,6 +18,7 @@ export const terminalTabs: TerminalTab[] = [
   { id: "demerger", label: "Demerger", storyChapter: 4 },
   { id: "realty", label: "Realty", storyChapter: 5 },
   { id: "ai-analyst", label: "AI Analyst" },
+  { id: "methodology", label: "Methodology" },
 ];
 
 /** Compact dataset string injected into the AI Analyst system prompt. */
